@@ -1,3 +1,7 @@
+Create new file in ~/.config/systemd/user/
+filename Messenger.service
+
+file content
 [Unit]
 StartLimitIntervalSec=20s
 StartLimitBurst=5
@@ -12,3 +16,7 @@ TimeoutSec=300
 
 [Install]
 WantedBy=default.target
+
+systemctl --user daemon-reload
+systemctl --user start Messenger.service
+systemctl --user status Messenger.service
