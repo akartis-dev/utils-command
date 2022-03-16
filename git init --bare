@@ -1,0 +1,28 @@
+Initilialiser un projet git avec les hooks
+
+1- Pour le git, on va faire un git init --bare
+2- Faire un clone du git sur le path du projet
+3- Configurer le hooks sur le repo git pour configurer les post commit
+
+Créer un hooks post-receive
+touch GIT_PATH/hooks/post-receive
+chmod a+x GIT_PATH/hooks/post-receive
+
+Exemple de post receive pour supprimer les caches et installez les dépendences
+On peut exécuter n'importe quelle commande
+
+#!/bin/sh
+
+baseFolder=/home/clients/
+folder=$baseFolder/sites/
+branch=dev
+
+GIT_WORK_TREE=$folder git checkout -f $branch
+
+cd $folder
+/opt/php7.4/bin/php -d memory_limit=-1 /home/clients/.../composer.phar install
+/opt/php7.4/bin/php -d memory_limit=-1 /home/clients/.../bin/console d:m:m -n
+/opt/php7.4/bin/php -d memory_limit=-1 /home/clients/.../bin/console c:c -n
+systemctl --user restart Messenger.service
+sleep 3
+systemctl --user status Messenger.service-rev
