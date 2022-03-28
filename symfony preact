@@ -1,0 +1,55 @@
+/** Utiliser symfony et preact sans configuration spécial sur webpack
+
+webpack.config.js
+.enablePreactPreset()
+
+Installer:
+- @babel/plugin-transform-react-jsx 
+- preact
+
+Créer un fichier jsx pour le component:
+
+Exemple simple d'un component preact
+*/
+
+import { render, h } from "preact";
+import { useState } from "preact/hooks";
+
+const Counter = () => {
+  const [counter, setCounter] = useState(0);
+
+  return (
+    <div>
+      <button
+        type="button"
+        className="btn btn-warning"
+        onClick={() => setCounter(counter - 1)}
+      >
+        Decrementer
+      </button>
+      <button
+        type="button"
+        className="btn btn-success"
+        onClick={() => setCounter(counter + 1)}
+      >
+        Incrémenter
+      </button>
+      <div>{counter}</div>
+    </div>
+  );
+};
+
+// Select all attribute app-counter in view
+const counterSelector = document.querySelectorAll("[app-counter]");
+
+// Render counter in counterSelector
+editorSelector.forEach(function (counter) {
+  render(<Counter />, counter, counter.firstChild);
+});
+
+/**
+ * Utilisation dans un view twig
+ * <div app-counter></div>
+ * 
+ * Ceci va être transformer en component jsx
+ */
