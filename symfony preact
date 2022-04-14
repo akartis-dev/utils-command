@@ -39,17 +39,36 @@ const Counter = () => {
   );
 };
 
-// Select all attribute app-counter in view
-const counterSelector = document.querySelectorAll("[app-counter]");
+renderPreact(Counter, 'app-counter')
 
-// Render counter in counterSelector
-editorSelector.forEach(function (counter) {
-  render(<Counter />, counter, counter.firstChild);
-});
+/**
+ * render.js
+ */
+import { render, h } from "preact";
 
+export const renderPreact = (Component, attribute) => {
+  const elements = document.querySelectorAll(`[${attribute}]`);
+
+  elements.forEach(function (element) {
+    const data = element?.dataset;
+
+    render(<Component {...data} />, element, element?.firstChild);
+  });
+};
+ 
 /**
  * Utilisation dans un view twig
  * <div app-counter></div>
  * 
  * Ceci va être transformer en component jsx
+ */
+/**
+ * Architecture du fichier
+ * assets/js
+ *  -> counter.jsx
+ *  -> render.js
+ *  -> index.js
+ * 
+ * Sur index.js on importe le custom component
+ * import './counter'
  */
